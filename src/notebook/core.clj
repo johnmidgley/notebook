@@ -18,6 +18,7 @@
       (quot notes-in-octave)
       dec))
 
+;; 440 and 69 are hardcoded - remove.
 (defn midi-num->frequency [midi-num]
   (* (math/expt 2 (/ (- midi-num 69) 12)) 440))
 
@@ -33,7 +34,31 @@
      :octave octave
      :name (str (name pitch-class) octave)}))
 
+(defn note->midi-num [note]
+  (:midi-num note))
+
+(defn note->name [note]
+  (:name note))
+
 (def notes (mapv midi-num->note midi-nums))
 
+;; Compute rather than scan for name
+(defn name->note [name]
+  (first (filter #(= name (note->name %)) notes)))
 
+(defn note-context [note context]
+  {:note note
+   :context context})
+
+(defn note-seq [note]
+  (iterate #(midi-num->note (inc (note->midi-num %))) note))
+
+(defn fretted-string [open-note num-notes]
+  {:name          (note->name open-note)
+   :note-contexts (vec
+                    (map #(hash-map :note % :context {:selected nil})
+                         (take num-notes (note-seq open-note))))})
+
+(defn guitar []
+  {:strings []})
 
