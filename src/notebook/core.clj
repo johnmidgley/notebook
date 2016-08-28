@@ -1,5 +1,6 @@
 (ns notebook.core
-  (:require [clojure.math.numeric-tower :as math]))
+  (:require [clojure.math.numeric-tower :as math]
+            [notebook.math :as m]))
 
 (def midi-nums (range 0 128))
 (def pitch-classes [[:C] [:C# :Db] [:D] [:D# :Eb] [:E] [:F]
@@ -12,7 +13,7 @@
       pitch-classes
       first))
 
-(defn note->octave [midi-num]
+(defn midi-num->octave [midi-num]
   (-> midi-num
       (quot notes-in-octave)
       dec))
@@ -20,9 +21,12 @@
 (defn midi-num->frequency [midi-num]
   (* (math/expt 2 (/ (- midi-num 69) 12)) 440))
 
+(defn frequency->midi-num [frequency]
+  (math/round (+ (* 12 (m/log2 (/ frequency 440))) 69)))
+
 (defn midi-num->note [midi-num]
   (let [pitch-class (midi-num->pitch-class midi-num)
-        octave (note->octave midi-num)]
+        octave (midi-num->octave midi-num)]
     {:midi-num midi-num
      :frequency (midi-num->frequency midi-num)
      :pitch-class pitch-class
