@@ -1,4 +1,4 @@
-(ns notebook.notebook.svg
+(ns notebook.svg
     (:require [hiccup.core :as h]))
 
 (def treble-clef
