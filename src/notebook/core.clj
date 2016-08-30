@@ -34,31 +34,19 @@
      :octave octave
      :name (str (name pitch-class) octave)}))
 
-(defn note->midi-num [note]
-  (:midi-num note))
-
-(defn note->name [note]
-  (:name note))
-
 (def notes (mapv midi-num->note midi-nums))
 
 ;; Compute rather than scan for name
 (defn name->note [name]
-  (first (filter #(= name (note->name %)) notes)))
+  (first (filter #(= name (:name %)) notes)))
 
-(defn note-context [note context]
+(defn note-state [note context]
   {:note note
    :context context})
 
 (defn note-seq [note]
-  (iterate #(midi-num->note (inc (note->midi-num %))) note))
+  ;; Should limite to max midi-num
+  (iterate #(midi-num->note (inc (:midi-num %))) note))
 
-(defn fretted-string [open-note num-notes]
-  {:name          (note->name open-note)
-   :note-contexts (vec
-                    (map #(hash-map :note % :context {:selected nil})
-                         (take num-notes (note-seq open-note))))})
 
-(defn guitar []
-  {:strings []})
 
