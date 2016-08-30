@@ -8,16 +8,16 @@
 (def pitch-classes [[:C] [:C# :Db] [:D] [:D# :Eb] [:E] [:F]
                     [:F# :Gb]
                     [:G] [:G# :Ab] [:A] [:A# :Bb] [:B]])
-(def notes-in-octave (count pitch-classes))
+(def num-notes-in-octave (count pitch-classes))
 
 (defn midi-num->pitch-class [midi-num]
-  (-> (mod midi-num notes-in-octave)
+  (-> (mod midi-num num-notes-in-octave)
       pitch-classes
       first))
 
 (defn midi-num->octave [midi-num]
   (-> midi-num
-      (quot notes-in-octave)
+      (quot num-notes-in-octave)
       dec))
 
 ;; 440 and 69 are hardcoded - remove.
