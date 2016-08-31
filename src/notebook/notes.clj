@@ -10,6 +10,12 @@
                     [:G] [:G# :Ab] [:A] [:A# :Bb] [:B]])
 (def num-notes-in-octave (count pitch-classes))
 
+(defn transpose-pitch-class [n pitch-class]
+  (assert (some #(some #{pitch-class} %) pitch-classes))
+  (let [pitch-class-cycle (cycle pitch-classes)
+        start (drop-while #(not (some #{pitch-class} %)) pitch-class-cycle)]
+    (first (drop n start))))
+
 (defn midi-num->pitch-class [midi-num]
   (-> (mod midi-num num-notes-in-octave)
       pitch-classes
