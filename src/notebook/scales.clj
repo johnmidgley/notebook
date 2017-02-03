@@ -5,7 +5,7 @@
   (when (integer? v) v))
 
 (defn to-int-interval [i]
-  (or (integer i) ({:S 1 :T 2} i)))
+  (or (integer i) ({:S 1 :T 2 :W 2 :H 1} i)))
 
 (defn ->scale [pitch-class intervals]
   (let [int-intervals (mapv to-int-interval intervals)]
