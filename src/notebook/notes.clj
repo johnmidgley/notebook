@@ -5,6 +5,8 @@
 ;; Assumes a chromatic scale
 
 (def midi-nums (range 0 128))
+
+;; Change to note-classes
 (def pitch-classes [[:C] [:C# :Db] [:D] [:D# :Eb] [:E] [:F]
                     [:F# :Gb]
                     [:G] [:G# :Ab] [:A] [:A# :Bb] [:B]])
